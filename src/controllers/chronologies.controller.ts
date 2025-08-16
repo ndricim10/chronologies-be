@@ -1,3 +1,4 @@
+import ExcelJS from "exceljs";
 import { Response } from "express";
 import fs from "fs/promises";
 import * as XLSX from "xlsx";
@@ -16,7 +17,6 @@ import {
   parseRequestedCode,
   transformByCode,
 } from "../utils/transformChronologies";
-import ExcelJS from "exceljs";
 
 function looksLikeHeaderRow(cells: any[]): boolean {
   const anchors = [
@@ -137,44 +137,6 @@ export const getSourceMeta = async (req: RequestWrapper, res: Response) => {
   }
 };
 
-export const previewTransformed = async (
-  req: RequestWrapper,
-  res: Response
-) => {
-  try {
-    const id = Number(req.params.id);
-    const requestedCode = parseRequestedCode(String(req.query.type));
-    const limit = Math.max(
-      1,
-      Math.min(parseInt((req.query.limit as string) || "20", 10), 100)
-    );
-    const role = req.user?.role as ROLES | undefined;
-    const userId = Number(req.user?.id);
-
-    const file = await getUploadById(id);
-    if (!file) return res.status(404).json({ error: "Not found" });
-    if (role !== ROLES.admin && file.userId !== userId)
-      return res.status(403).json({ error: "Forbidden" });
-
-    const fileBuf = await fs.readFile(getStoredPath(file.storedName));
-    const wb = XLSX.read(fileBuf, { type: "buffer" });
-    const ws = wb.Sheets[wb.SheetNames[0]];
-
-    const rows = readSheetObjects(ws);
-
-    const isAdmin = role === ROLES.admin;
-    const vp =
-      requestedCode === "EX" && isAdmin
-        ? String(req.query.vlerePoliuretan ?? "")
-        : undefined;
-
-    const transformed = transformByCode(rows, requestedCode, vp);
-    res.json({ preview: transformed.slice(0, limit) });
-  } catch {
-    res.status(500).json({ error: "Failed to preview file" });
-  }
-};
-
 export const downloadTransformed = async (
   req: RequestWrapper,
   res: Response
@@ -223,7 +185,7 @@ export const downloadTransformed = async (
 
     const HEADERS_IMPORT = [
       "Kodi R",
-      "Tipi i procedures (numri i fatures)",
+      "Tipi i procedures",
       "kodi 4 shifror",
       "pershkrim",
       "Palet",

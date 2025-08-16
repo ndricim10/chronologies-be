@@ -1,15 +1,14 @@
 import { Router } from "express";
-import { authenticateToken } from "../middleware/auth-middleware";
-import { uploadMiddleware } from "../middleware/file-uploads";
 import { ROLES } from "../@types/auth";
 import {
-  listSources,
-  getSourceMeta,
-  previewTransformed,
-  downloadTransformed,
   deleteSource,
+  downloadTransformed,
+  getSourceMeta,
+  listSources,
   uploadSource,
 } from "../controllers/chronologies.controller";
+import { authenticateToken } from "../middleware/auth-middleware";
+import { uploadMiddleware } from "../middleware/file-uploads";
 
 const router = Router();
 
@@ -29,21 +28,11 @@ router.get(
 );
 
 router.get(
-  "/:id/preview",
-  authenticateToken([ROLES.admin, ROLES.finance]),
-  previewTransformed
-);
-
-router.get(
   "/:id/download",
   authenticateToken([ROLES.admin, ROLES.finance]),
   downloadTransformed
 );
 
-router.delete(
-  "/:id",
-  authenticateToken([ROLES.admin, ROLES.finance]),
-  deleteSource
-);
+router.delete("/:id", authenticateToken([ROLES.admin]), deleteSource);
 
 export default router;
