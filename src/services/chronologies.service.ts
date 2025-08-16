@@ -62,7 +62,7 @@ export async function listUploads(
   const skip = (page - 1) * size;
   const where = isAdmin ? {} : { userId: forUserId };
 
-  const [data, total] = await Promise.all([
+  const [rows, total] = await Promise.all([
     prisma.chronologyFile.findMany({
       where,
       skip,
@@ -71,19 +71,43 @@ export async function listUploads(
       select: {
         id: true,
         originalName: true,
-        storedName: true,
         mimeType: true,
         size: true,
         checksum: true,
         createdAt: true,
-        userId: true,
+        user: {
+          select: {
+            id: true,
+            username: true,
+            email: true,
+            name: true,
+            surname: true,
+            role: true,
+          },
+        },
       },
     }),
     prisma.chronologyFile.count({ where }),
   ]);
 
+  // Do NOT expose storedName here
   return {
-    data,
+    data: rows.map((r) => ({
+      id: r.id,
+      originalName: r.originalName,
+      mimeType: r.mimeType,
+      size: r.size,
+      checksum: r.checksum,
+      createdAt: r.createdAt,
+      uploadedBy: {
+        id: r.user.id,
+        username: r.user.username,
+        email: r.user.email,
+        name: r.user.name,
+        surname: r.user.surname,
+        role: r.user.role,
+      },
+    })),
     currentPage: page,
     totalPages: Math.ceil(total / size),
     totalItems: total,
