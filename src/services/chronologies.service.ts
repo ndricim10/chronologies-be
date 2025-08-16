@@ -21,10 +21,8 @@ export async function persistUpload(userId: number, file: Express.Multer.File) {
   await ensureDir();
 
   const ext = path.extname(file.originalname || "") || ".bin";
-  const checksum = crypto
-    .createHash("md5")
-    .update(await fs.readFile(file.path))
-    .digest("hex");
+  const raw = await fs.readFile(file.path);
+  const checksum = crypto.createHash("md5").update(raw).digest("hex");
 
   const created = await prisma.chronologyFile.create({
     data: {
@@ -37,7 +35,6 @@ export async function persistUpload(userId: number, file: Express.Multer.File) {
     },
   });
 
-  // move to deterministic path: <id>_<slug><ext>
   const finalName = `${created.id}_${slug(
     path.basename(file.originalname || "file", ext)
   )}${ext}`;
@@ -90,14 +87,13 @@ export async function listUploads(
     prisma.chronologyFile.count({ where }),
   ]);
 
-  // Do NOT expose storedName here
   return {
     data: rows.map((r) => ({
       id: r.id,
       originalName: r.originalName,
       mimeType: r.mimeType,
       size: r.size,
-      checksum: r.checksum,
+      checksum: r.checksum ?? undefined,
       createdAt: r.createdAt,
       uploadedBy: {
         id: r.user.id,
@@ -128,12 +124,9 @@ export async function removeUpload(fileId: number) {
   });
   if (!found) return false;
 
-  const filePath = getStoredPath(found.storedName);
   try {
-    await fs.unlink(filePath);
-  } catch {
-    /* ignore */
-  }
+    await fs.unlink(getStoredPath(found.storedName));
+  } catch {}
 
   await prisma.chronologyFile.delete({ where: { id: fileId } });
   return true;

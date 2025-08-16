@@ -80,3 +80,9 @@ export const addDynamicFilters = (
     }
   });
 };
+
+export const cleanCell = (v: any): string => {
+  if (v === null || String(v) === "NULL" || v === undefined) return "";
+  if (typeof v === "string") return v.trim();
+  return String(v);
+};
