@@ -10,17 +10,33 @@ datasource db {
 }
 
 model User {
-  id        Int        @id @default(autoincrement())
-  username  String     @unique
-  name      String
-  fullName  String
-  email     String     @unique
-  password  String
-  createdAt DateTime   @default(now())
-  role      String     @default("FINANCE")
-  surname   String
-  status    String     @default("ACTIVE")
-  AuditLog  AuditLog[]
+  id             Int              @id @default(autoincrement())
+  username       String           @unique
+  name           String
+  fullName       String
+  email          String           @unique
+  password       String
+  createdAt      DateTime         @default(now())
+  role           String           @default("FINANCE")
+  surname        String
+  status         String           @default("ACTIVE")
+  AuditLog       AuditLog[]
+  ChronologyFile ChronologyFile[]
+}
+
+model ChronologyFile {
+  id           Int      @id @default(autoincrement())
+  userId       Int
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  originalName String
+  storedName   String   @unique
+  mimeType     String
+  size         Int
+  checksum     String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@index([userId])
 }
 
 model AuditLog {

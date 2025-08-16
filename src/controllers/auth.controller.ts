@@ -8,15 +8,12 @@ export const loginUser = async (
   req: RequestWrapper,
   res: Response
 ): Promise<void> => {
-  const { username, email, password } = req.body;
+  const { username, password } = req.body;
 
   try {
     const user = await prisma.user.findFirst({
       where: {
-        OR: [
-          ...(username ? [{ username }] : []),
-          ...(email ? [{ email }] : []),
-        ],
+        OR: [...(username ? [{ username }] : [])],
       },
     });
 
