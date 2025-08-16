@@ -185,7 +185,7 @@ export const downloadTransformed = async (
 
     const HEADERS_IMPORT = [
       "Kodi R",
-      "Tipi i procedures",
+      "Tipi procedures",
       "kodi 4 shifror",
       "pershkrim",
       "Palet",
@@ -219,14 +219,11 @@ export const downloadTransformed = async (
 
     const WIDTH_MIN = 12;
     const WIDTH_MAX = 40;
-    const skipWidthFor = new Set<string>([
-      "Tipi i procedures (numri i fatures)",
-    ]);
 
     const sampleCount = Math.min(transformed.length, 200);
     headers.forEach((h, idx) => {
       const col = ws.getColumn(idx + 1);
-      if (skipWidthFor.has(h)) return;
+
       let maxLen = Math.max(WIDTH_MIN, String(h).length);
       for (let i = 0; i < sampleCount; i++) {
         const v = transformed[i]?.[h];
@@ -238,6 +235,7 @@ export const downloadTransformed = async (
 
     const centerCols = new Set<string>([
       "Kodi R",
+      "Tipi procedures",
       "kodi 4 shifror",
       "Palet",
       "Cmimi artikullit monedhe",

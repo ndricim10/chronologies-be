@@ -79,7 +79,7 @@ function detectCodeFromCell(raw: any): Code | null {
 
 const ORDER_IMPORT = [
   "Kodi R",
-  "Tipi i procedures (numri i fatures)",
+  "Tipi procedures",
   "Lloji DAV (data e fatures)",
   "kodi 4 shifror",
   "pershkrim",
@@ -138,7 +138,7 @@ export function transformByCode(
 
     const base: Record<string, any> = {
       "Kodi R": get(r, col.kodi_r),
-      "Tipi i procedures (numri i fatures)": get(r, col.tipi_procedures),
+      "Tipi procedures": get(r, col.tipi_procedures),
       "Lloji DAV (data e fatures)": get(r, col.lloji_dav),
       "kodi 4 shifror": kodi8raw.slice(0, 4),
       pershkrim: get(r, col.gds_ds3), // Gds Ds3 → pershkrim
