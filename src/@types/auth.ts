@@ -32,6 +32,7 @@ export const ResourceTypes = {
 export type ResourceType = keyof typeof ResourceTypes;
 
 export interface UserBase {
+  username: string;
   name: string;
   surname: string;
   email: string;
@@ -72,6 +73,7 @@ export interface RatesProps {
 
 export interface User {
   id: number;
+  username: string;
   name: string;
   fullName: string;
   email: string;

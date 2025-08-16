@@ -81,7 +81,7 @@ export const createUserController = async (
   res: Response
 ) => {
   try {
-    const { email } = req.body;
+    const { email, username } = req.body;
     const requesterRole = req.user?.role;
     const requesterId = Number(req.user?.id);
 
@@ -90,12 +90,17 @@ export const createUserController = async (
       return;
     }
 
-    const existingEmail = await prisma.user.findUnique({
-      where: { email },
-    });
-
+    const existingEmail = await prisma.user.findUnique({ where: { email } });
     if (existingEmail) {
       res.status(400).json({ error: "Email is already in use." });
+      return;
+    }
+
+    const existingUsername = await prisma.user.findUnique({
+      where: { username },
+    });
+    if (existingUsername) {
+      res.status(400).json({ error: "Username is already in use." });
       return;
     }
 

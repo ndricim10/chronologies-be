@@ -78,11 +78,10 @@ export const createUser = async (
   const createdData: any = {
     ...data,
     password: hashedPassword,
+    fullName: `${data.name} ${data.surname}`,
   };
 
-  const user = await prisma.user.create({
-    data: createdData,
-  });
+  const user = await prisma.user.create({ data: createdData });
 
   await createAuditLog(
     currentUserId,
