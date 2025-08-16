@@ -64,8 +64,6 @@ export const filterKeys = [
   "label",
   "status",
   "fullName",
-  "branchId",
-  "expenseCategoryId",
 ];
 
 export const addDynamicFilters = (

@@ -26,7 +26,6 @@ export type ActionType = keyof typeof ActionTypes;
 export const ResourceTypes = {
   USER: "USER",
   LEAD: "LEADS",
-  BRANCH: "BRANCH",
   GROUP: "GROUP",
 } as const;
 

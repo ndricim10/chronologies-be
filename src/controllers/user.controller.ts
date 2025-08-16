@@ -81,7 +81,7 @@ export const createUserController = async (
   res: Response
 ) => {
   try {
-    const { email, branch } = req.body;
+    const { email } = req.body;
     const requesterRole = req.user?.role;
     const requesterId = Number(req.user?.id);
 
@@ -97,18 +97,6 @@ export const createUserController = async (
     if (existingEmail) {
       res.status(400).json({ error: "Email is already in use." });
       return;
-    }
-
-    // Optionally check if branch ID is valid if provided
-    if (branch?.id) {
-      const branchExists = await prisma.branch.findUnique({
-        where: { id: branch.id },
-      });
-
-      if (!branchExists) {
-        res.status(400).json({ error: "Invalid branch." });
-        return;
-      }
     }
 
     const user = await createUser(req.body, requesterRole, requesterId);
