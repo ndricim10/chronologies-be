@@ -14,6 +14,7 @@ app.set("trust proxy", true);
 const allowedOrigins = [
   "http://localhost:5173",
   "https://chronologies-be.fly.dev",
+  "https://your-fe.netlify.app",
 ];
 
 const corsOptions: cors.CorsOptions = {
