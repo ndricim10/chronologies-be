@@ -123,9 +123,6 @@ export function transformByCode(
     emri_eksportuesit: resolve(SRC.emri_eksportuesit),
   };
 
-  // DEBUG (optional): uncomment to verify resolved headers
-  // console.log("Resolved columns:", col);
-
   const get = (r: Record<string, any>, k?: string) => (k ? r[k] ?? "" : "");
 
   const out: Record<string, any>[] = [];
