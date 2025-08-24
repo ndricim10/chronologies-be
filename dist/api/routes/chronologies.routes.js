@@ -1,0 +1,14 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const auth_1 = require("../../@types/auth");
+const chronologies_controller_1 = require("../controllers/chronologies.controller");
+const auth_middleware_1 = require("../../middleware/auth-middleware");
+const file_uploads_1 = require("../../middleware/file-uploads");
+const router = (0, express_1.Router)();
+router.post("/", (0, auth_middleware_1.authenticateToken)([auth_1.ROLES.admin, auth_1.ROLES.finance]), file_uploads_1.uploadMiddleware, chronologies_controller_1.uploadSource);
+router.get("/", (0, auth_middleware_1.authenticateToken)([auth_1.ROLES.admin, auth_1.ROLES.finance]), chronologies_controller_1.listSources);
+router.get("/:id", (0, auth_middleware_1.authenticateToken)([auth_1.ROLES.admin, auth_1.ROLES.finance]), chronologies_controller_1.getSourceMeta);
+router.get("/:id/download", (0, auth_middleware_1.authenticateToken)([auth_1.ROLES.admin, auth_1.ROLES.finance]), chronologies_controller_1.downloadTransformed);
+router.delete("/:id", (0, auth_middleware_1.authenticateToken)([auth_1.ROLES.admin]), chronologies_controller_1.deleteSource);
+exports.default = router;
