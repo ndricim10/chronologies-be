@@ -11,23 +11,8 @@ const app = express();
 
 app.set("trust proxy", true);
 
-const allowedOrigins = [
-  "http://localhost:5173",
-  "https://chronologies-be.fly.dev",
-  "https://albashoes.netlify.app/",
-];
-
 const corsOptions: cors.CorsOptions = {
-  origin: function (origin, callback) {
-    if (!origin) {
-      return callback(null, true);
-    }
-    if (allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error(`Origin ${origin} not allowed by CORS`));
-    }
-  },
+  origin: "*",
   methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization"],
   credentials: true,
