@@ -1,7 +1,7 @@
 import path from "path";
 import fs from "fs/promises";
 import crypto from "crypto";
-import prisma from "../config/prisma";
+import prisma from "../../config/prisma";
 
 const BASE_DIR = path.join(__dirname, "../../uploads/chronologies");
 

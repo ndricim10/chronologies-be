@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { listAuditLogs } from "../controllers/audit.controller";
-import { authenticateToken } from "../middleware/auth-middleware";
-import { adminRoles } from "../utils/common-functions";
+import { authenticateToken } from "../../middleware/auth-middleware";
+import { adminRoles } from "../../utils/common-functions";
 
 const router = Router();
 

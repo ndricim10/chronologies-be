@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { ROLES } from "../@types/auth";
+import { ROLES } from "../../@types/auth";
 import {
   deleteSource,
   downloadTransformed,
@@ -7,8 +7,8 @@ import {
   listSources,
   uploadSource,
 } from "../controllers/chronologies.controller";
-import { authenticateToken } from "../middleware/auth-middleware";
-import { uploadMiddleware } from "../middleware/file-uploads";
+import { authenticateToken } from "../../middleware/auth-middleware";
+import { uploadMiddleware } from "../../middleware/file-uploads";
 
 const router = Router();
 

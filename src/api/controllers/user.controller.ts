@@ -1,7 +1,7 @@
 import bcrypt from "bcryptjs";
 import { Response } from "express";
-import { CreateUser, RequestWrapper, ROLES } from "../@types/auth";
-import prisma from "../config/prisma";
+import { CreateUser, RequestWrapper, ROLES } from "../../@types/auth";
+import prisma from "../../config/prisma";
 import { createAuditLog } from "../services/audit.service";
 import {
   createUser,
@@ -14,7 +14,7 @@ import {
   customError,
   parseFilters,
   updatedFilters,
-} from "../utils/common-functions";
+} from "../../utils/common-functions";
 
 export const findUserById = (id: string) => {
   const userToFound = prisma.user.findUnique({

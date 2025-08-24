@@ -1,7 +1,7 @@
 import { Response } from "express";
-import { RequestWrapper } from "../@types/auth";
+import { RequestWrapper } from "../../@types/auth";
 import { getAuditLogs } from "../services/audit.service";
-import { parseFilters, updatedFilters } from "../utils/common-functions";
+import { parseFilters, updatedFilters } from "../../utils/common-functions";
 
 export const listAuditLogs = async (req: RequestWrapper, res: Response) => {
   try {

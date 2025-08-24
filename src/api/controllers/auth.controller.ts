@@ -1,8 +1,8 @@
 import bcrypt from "bcryptjs";
 import { Response } from "express";
-import { RequestWrapper } from "../@types/auth";
-import prisma from "../config/prisma";
-import { generateToken } from "../utils/jwt";
+import { RequestWrapper } from "../../@types/auth";
+import prisma from "../../config/prisma";
+import { generateToken } from "../../utils/jwt";
 
 export const loginUser = async (
   req: RequestWrapper,

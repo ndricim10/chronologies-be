@@ -8,6 +8,6 @@
     "esModuleInterop": true,
     "typeRoots": ["./node_modules/@types", "./@types"]
   },
-  "include": ["src"],       // Ensure only "src" is compiled
+  "include": ["src", "test-db.js"],       // Ensure only "src" is compiled
   "exclude": ["node_modules", "dist"]  // Prevent "dist" from being compiled
 }

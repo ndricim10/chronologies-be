@@ -1,8 +1,8 @@
 import bcrypt from "bcryptjs";
-import { CreateUser, ROLES, User } from "../@types/auth";
-import { CommonFilterKeys } from "../@types/interfaces";
-import prisma from "../config/prisma";
-import { addDynamicFilters } from "../utils/common-functions";
+import { CreateUser, ROLES, User } from "../../@types/auth";
+import { CommonFilterKeys } from "../../@types/interfaces";
+import prisma from "../../config/prisma";
+import { addDynamicFilters } from "../../utils/common-functions";
 import { createAuditLog } from "./audit.service";
 
 const { admin } = ROLES;

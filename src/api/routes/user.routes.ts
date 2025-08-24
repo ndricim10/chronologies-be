@@ -11,8 +11,8 @@ import {
   updateProfile,
   updateUserController,
 } from "../controllers/user.controller";
-import { authenticateToken } from "../middleware/auth-middleware";
-import { adminRoles, allRoles } from "../utils/common-functions";
+import { authenticateToken } from "../../middleware/auth-middleware";
+import { adminRoles, allRoles } from "../../utils/common-functions";
 
 const router = Router();
 

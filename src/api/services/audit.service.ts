@@ -1,7 +1,7 @@
-import { ActionType, ROLES } from "../@types/auth";
-import { CommonFilterKeys } from "../@types/interfaces";
-import prisma from "../config/prisma";
-import { filterKeys } from "../utils/common-functions";
+import { ActionType, ROLES } from "../../@types/auth";
+import { CommonFilterKeys } from "../../@types/interfaces";
+import prisma from "../../config/prisma";
+import { filterKeys } from "../../utils/common-functions";
 
 export const getAuditLogs = async (
   page: number = 1,

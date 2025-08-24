@@ -1,10 +1,10 @@
 import cors from "cors";
 import dotenv from "dotenv";
 import express from "express";
-import auditRouter from "./routes/audit.routes";
-import authRoutes from "./routes/auth.routes";
-import userRoutes from "./routes/user.routes";
-import chronologiesRoutes from "./routes/chronologies.routes";
+import auditRouter from "./api/routes/audit.routes";
+import authRoutes from "./api/routes/auth.routes";
+import userRoutes from "./api/routes/user.routes";
+import chronologiesRoutes from "./api/routes/chronologies.routes";
 
 dotenv.config();
 const app = express();
