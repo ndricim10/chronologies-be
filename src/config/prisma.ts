@@ -1,15 +1,24 @@
+import { withSafety } from "../middleware/strip-pagination";
 import { PrismaClient } from "@prisma/client";
 
 declare global {
-  var prisma: PrismaClient | undefined;
+  var __prisma__: PrismaClient | undefined;
 }
 
-export const prisma =
-  global.prisma ??
+const base =
+  global.__prisma__ ??
   new PrismaClient({
     log: ["query", "error"],
   });
 
-if (process.env.NODE_ENV !== "production") global.prisma = prisma;
+const client = withSafety(base);
 
-export default prisma;
+if (process.env.NODE_ENV !== "production") {
+  global.__prisma__ = client as any;
+}
+
+const tag = (client as any).__safetyExtensionInstalled;
+console.log("[prisma-module]", { moduleId: __filename, tag });
+
+export default client;
+export const prisma = client;

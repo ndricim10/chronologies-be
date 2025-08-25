@@ -50,21 +50,38 @@ export async function persistUpload(userId: number, file: Express.Multer.File) {
   return updated;
 }
 
+function toIntOrUndef(v: unknown) {
+  const n = Number(v);
+  return Number.isInteger(n) ? n : undefined;
+}
+
+function sanitizePaging(rawPage?: unknown, rawSize?: unknown) {
+  let page = toIntOrUndef(rawPage);
+  let size = toIntOrUndef(rawSize);
+
+  // defaults & clamps
+  page = page && page > 0 ? page : 1;
+  size = size && size > 0 ? Math.min(size, 100) : 10; // cap to 100 to be safe
+
+  const skip = (page - 1) * size;
+  return { page, size, skip };
+}
+
 export async function listUploads(
   forUserId: number,
   isAdmin: boolean,
-  page = 1,
-  size = 10
+  page?: number,
+  size?: number
 ) {
-  const skip = (page - 1) * size;
+  const { page: safePage, size: safeSize, skip } = sanitizePaging(page, size);
   const where = isAdmin ? {} : { userId: forUserId };
 
   const [rows, total] = await Promise.all([
     prisma.chronologyFile.findMany({
       where,
-      skip,
-      take: size,
       orderBy: { createdAt: "desc" },
+      ...(Number.isInteger(skip) ? { skip } : {}),
+      ...(Number.isInteger(safeSize) ? { take: safeSize } : {}),
       select: {
         id: true,
         originalName: true,
@@ -104,8 +121,8 @@ export async function listUploads(
         role: r.user.role,
       },
     })),
-    currentPage: page,
-    totalPages: Math.ceil(total / size),
+    currentPage: safePage,
+    totalPages: Math.ceil(total / safeSize),
     totalItems: total,
   };
 }

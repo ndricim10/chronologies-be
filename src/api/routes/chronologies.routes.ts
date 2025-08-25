@@ -1,14 +1,13 @@
 import { Router } from "express";
 import { ROLES } from "../../@types/auth";
+import { authenticateToken } from "../../middleware/auth-middleware";
+import { uploadMiddleware } from "../../middleware/file-uploads";
 import {
   deleteSource,
   downloadTransformed,
-  getSourceMeta,
   listSources,
   uploadSource,
 } from "../controllers/chronologies.controller";
-import { authenticateToken } from "../../middleware/auth-middleware";
-import { uploadMiddleware } from "../../middleware/file-uploads";
 
 const router = Router();
 
@@ -20,12 +19,6 @@ router.post(
 );
 
 router.get("/", authenticateToken([ROLES.admin, ROLES.finance]), listSources);
-
-router.get(
-  "/:id",
-  authenticateToken([ROLES.admin, ROLES.finance]),
-  getSourceMeta
-);
 
 router.get(
   "/:id/download",

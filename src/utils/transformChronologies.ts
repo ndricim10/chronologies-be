@@ -36,12 +36,10 @@ export function buildResolver(rows: Record<string, any>[]) {
   for (const k of keys) normToOrig.set(normKey(k), k);
 
   return (labels: string[]): string | undefined => {
-    // exact normalized match
     for (const l of labels) {
       const hit = normToOrig.get(normKey(l));
       if (hit) return hit;
     }
-    // soft contains (either direction)
     for (const l of labels) {
       const nl = normKey(l);
       for (const [nk, orig] of normToOrig.entries()) {
@@ -129,7 +127,7 @@ export function transformByCode(
 
   for (const r of rows) {
     const davCode = detectCodeFromCell(get(r, col.lloji_dav));
-    if (!davCode || davCode !== requested) continue; // STRICT filter
+    if (!davCode || davCode !== requested) continue;
 
     const kodi8raw = String(get(r, col.kodi8) ?? "").replace(/\D/g, "");
 
@@ -138,8 +136,8 @@ export function transformByCode(
       "Tipi procedures": get(r, col.tipi_procedures),
       "Lloji DAV (data e fatures)": get(r, col.lloji_dav),
       "kodi 4 shifror": kodi8raw.slice(0, 4),
-      pershkrim: get(r, col.gds_ds3), // Gds Ds3 → pershkrim
-      Palet: get(r, col.palet), // Tar Sup Qty1 SUM → Palet
+      pershkrim: get(r, col.gds_ds3),
+      Palet: get(r, col.palet),
       "Cmimi artikullit monedhe": get(r, col.cmimi),
       "Shuma paguar": get(r, col.shuma),
       "Pesha neto kg": get(r, col.pesha_neto),

@@ -3,8 +3,8 @@ import dotenv from "dotenv";
 import express from "express";
 import auditRouter from "./api/routes/audit.routes";
 import authRoutes from "./api/routes/auth.routes";
-import userRoutes from "./api/routes/user.routes";
 import chronologiesRoutes from "./api/routes/chronologies.routes";
+import userRoutes from "./api/routes/user.routes";
 
 dotenv.config();
 const app = express();
